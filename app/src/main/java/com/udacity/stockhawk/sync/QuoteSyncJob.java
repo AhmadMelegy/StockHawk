@@ -84,13 +84,14 @@ public final class QuoteSyncJob {
                 List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
 
                 StringBuilder historyBuilder = new StringBuilder();
-
+                historyBuilder.append("[");
                 for (HistoricalQuote it : history) {
-                    historyBuilder.append(it.getDate().getTimeInMillis());
+                    historyBuilder.append("{\"date\":").append(it.getDate().getTimeInMillis());
                     historyBuilder.append(", ");
-                    historyBuilder.append(it.getClose());
-                    historyBuilder.append("\n");
+                    historyBuilder.append("\"close\":").append(it.getClose());
+                    historyBuilder.append("},");
                 }
+                historyBuilder.append("]");
 
                 ContentValues quoteCV = new ContentValues();
                 quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
