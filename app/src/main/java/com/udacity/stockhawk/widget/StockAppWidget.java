@@ -19,7 +19,7 @@ import com.udacity.stockhawk.ui.MainActivity;
 import com.udacity.stockhawk.ui.StockDetailsActivity;
 
 /**
- * Implementation of App Widget functionality.
+ * Provider for a scrollable stock widget
  */
 public class StockAppWidget extends AppWidgetProvider {
 
