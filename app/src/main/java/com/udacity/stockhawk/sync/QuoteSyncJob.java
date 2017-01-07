@@ -118,8 +118,8 @@ public final class QuoteSyncJob {
                             Toast.makeText(context, String.format(context.getString(R.string.error_stock_not_found), symbol), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    PrefUtils.removeStock(context, symbol);
                 }
-                PrefUtils.removeStock(context, symbol);
 
             }
 

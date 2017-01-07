@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        progressBar.setVisibility(View.VISIBLE);
 
         adapter = new StockAdapter(this, this);
         stockRecyclerView.setAdapter(adapter);
@@ -107,18 +106,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onRefresh() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.GONE);
         QuoteSyncJob.syncImmediately(this);
 
         if (!networkUp() && adapter.getItemCount() == 0) {
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_network));
             error.setVisibility(View.VISIBLE);
         } else if (!networkUp()) {
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
         } else if (PrefUtils.getStocks(this).size() == 0) {
             Timber.d("WHYAREWEHERE");
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
