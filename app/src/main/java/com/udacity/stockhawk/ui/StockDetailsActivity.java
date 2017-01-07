@@ -46,14 +46,14 @@ public class StockDetailsActivity extends AppCompatActivity {
             JSONArray historyArray = new JSONArray(history);
             stocks = new ArrayList<>();
             mReferenceTimestamp = historyArray.getJSONObject(0).getLong("close");
-            for (int i = 0; i < historyArray.length(); i++) {
+            for (int i = 0; i < historyArray.length() - 1; i++) {
                 Long date = historyArray.getJSONObject(i).getLong("date");
                 Long close = historyArray.getJSONObject(i).getLong("close");
                 stocks.add(i, new Entry(date - mReferenceTimestamp, close.floatValue()));
             }
 
         } catch (Throwable throwable) {
-            Toast.makeText(this, "Sorry something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_no_stocks, Toast.LENGTH_SHORT).show();
         }
 
         ButterKnife.bind(this);
@@ -68,7 +68,6 @@ public class StockDetailsActivity extends AppCompatActivity {
 
         IAxisValueFormatter xAxisFormatter = new DateAxisValueFormatter(mReferenceTimestamp);
         XAxis xAxis = mLineChart.getXAxis();
-        xAxis.setAvoidFirstLastClipping(true);
         xAxis.setValueFormatter(xAxisFormatter);
 
         mLineChart.setData(data);
