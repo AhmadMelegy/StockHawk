@@ -1,6 +1,5 @@
 package com.udacity.stockhawk.widget;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
@@ -66,11 +65,9 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
             return data == null ? 0 : data.getCount();
         }
 
-        @SuppressLint("PrivateResource")
         @Override
         public RemoteViews getViewAt(int position) {
-            if (position == AdapterView.INVALID_POSITION || data == null
-                    || !data.moveToPosition(position)) {
+            if (position == AdapterView.INVALID_POSITION || data == null || !data.moveToPosition(position)) {
                 return null;
             }
 
@@ -81,21 +78,21 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
             String stockHistory = data.getString(Contract.Quote.POSITION_HISTORY);
             Float stockPrice = data.getFloat(Contract.Quote.POSITION_PRICE);
             Float absoluteChange = data.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
-            int backgroundDrawable;
+
 
             DecimalFormat dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
             DecimalFormat dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-            dollarFormatWithPlus.setPositivePrefix("+");
+            dollarFormatWithPlus.setPositivePrefix("+$");
             dollarFormatWithPlus.setMaximumFractionDigits(2);
             dollarFormat.setMaximumFractionDigits(2);
             dollarFormat.setMinimumFractionDigits(2);
             dollarFormatWithPlus.setMinimumFractionDigits(2);
 
-            if (absoluteChange > 0) {
-                backgroundDrawable = R.drawable.percent_change_pill_green;
-            } else {
-                backgroundDrawable = R.drawable.percent_change_pill_red;
-            }
+
+            int backgroundDrawable =
+                    (absoluteChange > 0)
+                            ? R.drawable.percent_change_pill_green
+                            : R.drawable.percent_change_pill_red;
 
             remoteViews.setTextViewText(R.id.symbol, stockSymbol);
             remoteViews.setTextViewText(R.id.price, dollarFormat.format(stockPrice));
